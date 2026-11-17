@@ -1,5 +1,7 @@
 # 1DM+ M3 Expressive Theme
 
+**English** | [简体中文](README.zh-CN.md)
+
 Material 3 Expressive dynamic colors and G2 continuous-curvature (squircle) dialogs for **1DM+**
 (`idm.internet.download.manager.plus`), with a native **Miuix** settings UI.
 Everything is implemented inside a single LSPosed module — no RRO overlay, no Magisk/KSU module.
