@@ -1,5 +1,7 @@
 # Building this module
 
+**English** | [简体中文](BUILDING.zh-CN.md)
+
 The module mixes two worlds:
 
 - **Hooks** (`ThemeHooks`, `DialogHooks`, `DrawableHooks`, `Palette`, `RemoteConfig`,
