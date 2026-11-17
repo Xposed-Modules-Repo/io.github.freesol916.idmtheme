@@ -4,6 +4,14 @@ Material 3 Expressive dynamic colors + G2 continuous-curvature (squircle) dialog
 (`idm.internet.download.manager.plus`). Everything is implemented inside a single LSPosed module —
 no RRO overlay, no Magisk/KSU module.
 
+## Screenshots
+
+| Dynamic color (wallpaper follows) | Squircle dialog + card surface |
+|---|---|
+| ![Toolbar](docs/toolbar.png) | ![Dialog](docs/dialog.png) |
+
+![Settings](docs/settings.png)
+
 ## Scope
 
 - `idm.internet.download.manager.plus` only (`staticScope=true`)
