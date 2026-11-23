@@ -1,89 +1,86 @@
-# 1DM+ M3 Expressive Theme
+# 1DM+ 动态配色（M3 Expressive 主题）
 
-**English** | [简体中文](README.zh-CN.md)
+**简体中文** | [English](README.en.md)
 
-Material 3 Expressive dynamic colors and G2 continuous-curvature (squircle) dialogs for **1DM+**
-(`idm.internet.download.manager.plus`), with a native **Miuix** settings UI.
-Everything is implemented inside a single LSPosed module — no RRO overlay, no Magisk/KSU module.
+给 **1DM+**（`idm.internet.download.manager.plus`）做 Material 3 Expressive 动态配色，
+并把弹窗四角换成 G2 连续曲率（squircle）的圆角；设置界面使用原生 **Miuix** 组件。
+全部功能由单个 LSPosed 模块实现 —— 不用 RRO overlay，也不用 Magisk / KernelSU 模块。
 
-## Scope
+## 作用域
 
-- `idm.internet.download.manager.plus` only (`staticScope=true`)
+- 仅 `idm.internet.download.manager.plus`（`staticScope=true`）
 
-## Screenshots
+## 截图
 
-| Themed toolbar (wallpaper colors) | Squircle download dialog |
+| 动态配色工具栏（跟随壁纸） | G2 连续曲率下载弹窗 |
 |---|---|
 | ![Toolbar](docs/toolbar.png) | ![Dialog](docs/dialog.png) |
 
-Settings screen, built with [Miuix](https://github.com/compose-miuix-ui/miuix) (Compose Multiplatform):
+设置界面，使用 [Miuix](https://github.com/compose-miuix-ui/miuix)（Compose Multiplatform）构建：
 
 ![Settings](docs/settings.png)
 
-## Features
+## 功能
 
-### Dynamic color from the wallpaper
+### 跟随壁纸的动态配色
 
-- Colors come from the system Material 3 **semantic** tokens, not the old tonal palette:
-  `system_primary_light/dark`, `system_on_primary_*`, `system_secondary_*`, `system_tertiary_*`,
-  `system_primary_container_*`, `system_surface_*`, `system_surface_container_low/high_*`,
-  `system_on_surface_*`, `system_outline_variant_*`, `system_error_*`.
-- Resolved as compile-time constants, selected by `uiMode`, updated automatically when the wallpaper changes.
-- Full mapping of 1DM+'s own resource IDs (from its `public.xml`) plus a name/brand-value fallback,
-  so no original teal (`#80cbc4`) survives. Toolbar, tab bar and indicator, FAB, checkboxes,
-  progress bars, drawer, list background, dividers, links and highlighted text are all mapped.
+- 颜色取自系统 Material 3 **语义令牌**，不使用旧的 tonal 调色板：
+  `system_primary_light/dark`、`system_on_primary_*`、`system_secondary_*`、`system_tertiary_*`、
+  `system_primary_container_*`、`system_surface_*`、`system_surface_container_low/high_*`、
+  `system_on_surface_*`、`system_outline_variant_*`、`system_error_*`。
+- 以编译期常量解析，按 `uiMode` 选择 `_light` / `_dark`；换壁纸后自动更新。
+- 完整映射了 1DM+ 自身的资源 ID（来自它的 `public.xml`），另有「资源名 / 品牌色值」兜底，
+  所以原版青绿色 `#80cbc4` 不会残留：工具栏、Tab 条与指示条、FAB、复选框、进度条、
+  侧边栏、列表底色、分割线、链接文字色、高亮文字底色全部纳入映射。
 
-### Custom accent color
+### 自定义强调色
 
-- Pick any `#RRGGBB` in the settings screen. It is applied to accents and the toolbar; the toolbar
-  color is darkened until white text reaches a contrast ratio of at least 4.5:1.
-- One tap restores wallpaper-following mode.
-- The config is delivered to the target process over a directed broadcast and cached inside it,
-  so a change takes effect the next time a screen or dialog is opened — no reboot, no process restart.
+- 在设置里填任意 `#RRGGBB`，会应用到强调色和工具栏；工具栏颜色会自动压暗，
+  直到上面的白字对比度不低于 4.5:1。
+- 一键「恢复跟随壁纸」。
+- 配置通过定向广播推送进目标进程并缓存在它自己的 cache 里，所以改色后**重新打开界面或弹窗**
+  就生效，不需要重启手机、也不需要重启应用进程。
 
-### Squircle dialogs (G2 continuous curvature)
+### G2 连续曲率弹窗
 
-- Dialog corners follow the superellipse `(|dx|/R)^4 + (|dy|/R)^4 = 1`, drawn with anti-aliasing —
-  not a circular arc.
-- The dialog card background is `system_surface_container_high` (`_dark` in dark mode), never plain white.
-- Hook sequence: `Dialog#show` before → window background + 16dp inset; after → `decor.post()` →
-  walk the view tree (depth ≤ 14) and replace the outer solid-background card.
+- 弹窗四角满足超椭圆方程 `(|dx|/R)^4 + (|dy|/R)^4 = 1`，带抗锯齿 —— 不是圆弧。
+- 弹窗卡片底色取 `system_surface_container_high`（深色模式取对应的 `_dark`），不会是纯白。
+- hook 时序：`Dialog#show` 调用前改 window background 并设 16dp inset；调用后 `decor.post()`
+  再遍历视图树（深度上限 14 层），把最外层的实色背景视图换成自绘圆角。
 
-### Adjustable corner curvature
+### 可调圆角曲率
 
-- A single slider controls the corner radius: **0–48 dp, default 24 dp**, step 1 dp.
-  The curve family stays G2 (n = 4).
-- Measured on a 1080×2376 @480dpi device (inset from the bottom edge at dy = 6/12/24 px):
+- 单个滑块控制圆角半径：**0–48 dp，默认 24 dp**，步进 1 dp；曲线族仍是 G2（n = 4）。
+- 在 1080×2376 @480dpi 设备上实测（距底边 dy = 6/12/24 px 处左边界内缩量）：
 
-  | radius | measured | superellipse theory |
+  | 半径 | 实测 | 超椭圆理论值 |
   |---|---|---|
   | 8dp (24px) | 2 / 1 / 0 | 2.2 / 0.4 / 0 |
   | 24dp (72px) | 19 / 11 / 4 | 19.0 / 10.9 / 3.9 |
   | 40dp (120px) | 41 / 28 / 15 | 41.0 / 28.0 / 15.0 |
 
-## Requirements
+## 环境要求
 
-- Android 9+ (API 28 or newer recommended), LSPosed with **LibXposed API 102**
-- Module packaging follows API 102: `META-INF/xposed/module.prop`
-  (`minApiVersion=102`, `targetApiVersion=102`, `staticScope=true`), `java_init.list`, `scope.list`
+- Android 9+（建议 API 28 及以上），LSPosed 需支持 **LibXposed API 102**
+- 模块按 API 102 格式打包：`META-INF/xposed/module.prop`
+  （`minApiVersion=102`、`targetApiVersion=102`、`staticScope=true`）、`java_init.list`、`scope.list`
 
-## Usage
+## 使用方法
 
-1. Install the APK.
-2. Enable the module in LSPosed; the scope is fixed to 1DM+.
-3. Force stop 1DM+ and open it again.
-4. To customize, open **1DM+ M3 Expressive Theme** from the launcher: pick a color and/or drag the
-   corner-radius slider, then tap **Save and apply**.
+1. 安装 APK。
+2. 在 LSPosed 里启用模块（作用域已固定为 1DM+）。
+3. 强制停止 1DM+ 再打开。
+4. 想自定义就打开桌面上的 **1DM+ M3 Expressive Theme**：选颜色、拖圆角滑块，
+   然后点 **保存并应用**。
 
-## How it is built
+## 构建方式
 
-The settings UI is [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) with
-Miuix components; the hook code stays plain Java. See [BUILDING.md](BUILDING.md) for the exact toolchain
-and the workarounds needed to build a Compose app on an arm64-only machine.
+设置界面用 Compose Multiplatform + Miuix，hook 部分仍是纯 Java。
+具体工具链版本和「在 arm64 机器上编 Compose」的几个绕行方案都写在
+[BUILDING.md](BUILDING.md) 里。
 
-## Notes
+## 说明
 
-- Every hook installs independently and runs in `ExceptionMode.PROTECTIVE`: a failing hook is logged
-  and skipped, and the original value is returned, so the target app never crashes because of the module.
-- Disabling the module and restarting 1DM+ restores the original look completely — no APK or system
-  files are modified.
+- 每一条 hook 都独立安装，并以 `ExceptionMode.PROTECTIVE` 运行：hook 内部抛异常只会记录日志
+  并按「没有 hook」继续，不会让目标应用崩溃。
+- 停用模块并重启 1DM+ 即可完全恢复原样 —— 模块不修改 APK，也不修改系统文件。
