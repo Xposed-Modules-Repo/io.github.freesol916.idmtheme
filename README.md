@@ -35,10 +35,16 @@
 | 文件 | 说明 |
 |---|---|
 | **[1dm-theme-1.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | 本模块（LSPosed），装完在 LSPosed 里启用即可 |
-| **[1DM-18.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | 目标应用 1DM+ 18.2（versionCode 30249），模块的功能与圆角参数都在这个版本上验证 |
 
-- 1DM+ 是付费应用，仓库里这份仅作为「配合本模块使用」的版本快照；能在商店买的话请支持作者。
+**目标应用 1DM+** 请从官方渠道安装（本仓库不再分发安装包）：
+
+- Google Play：<https://play.google.com/store/apps/details?id=idm.internet.download.manager.plus>
+- 官网：<https://www.internetdownloadmanager.com/>（Android 版页面里有下载入口）
+
+- 本模块在 **1DM+ 18.2（versionCode 30249）** 上测试通过；升级后若某些位置颜色没跟上，
+  打开模块设置点一次「保存并应用」即可重新推送配置。
 - 装完模块后记得**强制停止 1DM+ 再打开**，hook 只在进程启动时加载。
+- 装了模块之后如果 1DM+ 打不开，先在 LSPosed 里把模块停用再启动，确认是模块问题后带日志反馈。
 
 ## 功能
 

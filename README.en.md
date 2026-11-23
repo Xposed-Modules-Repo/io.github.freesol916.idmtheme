@@ -36,10 +36,15 @@ Settings screen, built with [Miuix](https://github.com/compose-miuix-ui/miuix) (
 | File | What it is |
 |---|---|
 | **[1dm-theme-1.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | The module itself (LSPosed) |
-| **[1DM-18.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | The target app, 1DM+ 18.2 (versionCode 30249) — the version this module was verified against |
 
-- 1DM+ is a paid app; the copy here is a version snapshot meant for use together with this module.
-- After installing the module, **force stop 1DM+ and open it again** — hooks load at process start.
+**1DM+ (the target app)** is distributed by its author only — get it from an official channel:
+
+- Google Play: <https://play.google.com/store/apps/details?id=idm.internet.download.manager.plus>
+- Official site: <https://www.internetdownloadmanager.com/>
+
+- Verified against **1DM+ 18.2 (versionCode 30249)**. If some colors do not follow after an app update,
+  open the module settings and tap **Save and apply** once to re-push the config.
+- After installing the module **force stop 1DM+ and open it again** — hooks load at process start.
 
 ## Features
 
