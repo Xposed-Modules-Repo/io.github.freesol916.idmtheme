@@ -1,0 +1,61 @@
+name: Publish release
+
+on:
+  push:
+    tags: ['*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag, e.g. 3-1.2'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag and asset
+        id: info
+        run: |
+          if [ -n "${{ inputs.tag }}" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          ASSET=$(ls dist/*.apk | tail -1)
+          echo "asset=$ASSET" >> "$GITHUB_OUTPUT"
+          echo "asset_name=1dm-theme-${TAG}.apk" >> "$GITHUB_OUTPUT"
+
+      - name: Collect release notes
+        id: notes
+        run: |
+          FILE="release-notes/${{ steps.info.outputs.tag }}.md"
+          if [ -f "$FILE" ]; then
+            echo "file=$FILE" >> "$GITHUB_OUTPUT"
+          else
+            echo "file=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.info.outputs.tag }}"
+          ASSET="${{ steps.info.outputs.asset }}"
+          NOTES_FILE="${{ steps.info.outputs.file }}"
+          NAME=$(basename "$ASSET")
+          if [ -n "$NOTES_FILE" ]; then
+            gh release create "$TAG" "$ASSET#${{ steps.info.outputs.asset_name }}" \
+              --title "$TAG" --notes-file "$NOTES_FILE" --target "$(git rev-parse HEAD)"
+          else
+            gh release create "$TAG" "$ASSET#${{ steps.info.outputs.asset_name }}" \
+              --title "$TAG" --notes "Automated release from $(git rev-parse --short HEAD)" \
+              --target "$(git rev-parse HEAD)"
+          fi
