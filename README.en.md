@@ -1,10 +1,17 @@
-# 1DM+ M3 Expressive Theme
+# 1DM+ Dynamic Colors (M3 Expressive theme)
 
 [简体中文](README.md) | **English**
 
-Material 3 Expressive dynamic colors and G2 continuous-curvature (squircle) dialogs for **1DM+**
-(`idm.internet.download.manager.plus`), with a native **Miuix** settings UI.
-Everything is implemented inside a single LSPosed module — no RRO overlay, no Magisk/KSU module.
+An **LSPosed module** that gives **1DM+** (`idm.internet.download.manager.plus`, a download manager)
+**Material 3 Expressive / Material You dynamic color**: wallpaper-based (Monet) colors, G2 continuous-curvature
+(squircle) dialogs, adjustable corner radius *and* curvature exponent, dark mode and AMOLED black.
+The settings screen is built with native **Miuix** components.
+
+Everything lives in a single LSPosed module — no RRO overlay, no patched APK, no Magisk/KernelSU module.
+Disable the module and restart the app to get the original look back.
+
+> Keywords: 1DM+ · IDM · download manager · dynamic color · Monet · Material You · M3 Expressive ·
+> dark mode · rounded corners · continuous curvature · squircle · AMOLED · LSPosed · LibXposed API 102
 
 ## Scope
 
@@ -49,21 +56,44 @@ Settings screen, built with [Miuix](https://github.com/compose-miuix-ui/miuix) (
 - Hook sequence: `Dialog#show` before → window background + 16dp inset; after → `decor.post()` →
   walk the view tree (depth ≤ 14) and replace the outer solid-background card.
 
-### Adjustable corner curvature
+### Adjustable curvature (radius + exponent)
 
-- A single slider controls the corner radius: **0–48 dp, default 24 dp**, step 1 dp.
-  The curve family stays G2 (n = 4).
-- Measured on a 1080×2376 @480dpi device (inset from the bottom edge at dy = 6/12/24 px):
+- Two sliders: **radius 0–48 dp (default 24 dp)** and **exponent n = 2.0–8.0 (default 4.0)**.
+  n = 4 is the G2 superellipse `(|dx|/R)^4 + (|dy|/R)^4 = 1`; n = 2 degenerates into a circular arc;
+  larger n tends to a square corner.
+- Measured on a 1080×2376 @480dpi device (inset from the bottom edge at dy = 6/12/24 px, radius 24dp = 72px):
 
-  | radius | measured | superellipse theory |
+  | exponent n | measured | superellipse theory |
   |---|---|---|
-  | 8dp (24px) | 2 / 1 / 0 | 2.2 / 0.4 / 0 |
-  | 24dp (72px) | 19 / 11 / 4 | 19.0 / 10.9 / 3.9 |
-  | 40dp (120px) | 41 / 28 / 15 | 41.0 / 28.0 / 15.0 |
+  | 2 (arc) | 40 / 29 / 16 | 43.2 / 32.2 / 18.3 |
+  | 4 (G2) | 19 / 11 / 4 | 19.0 / 10.9 / 3.9 |
+  | 8 | 6 / 3 / 1 | 6.0 / 2.3 / 0.4 |
+
+  Measured values run 0–3px below theory: the anti-aliased edge is detected against the exact card color.
+
+### Dark mode and AMOLED
+
+- Follows the system light/dark setting; semantic tokens switch to the `_dark` set automatically.
+- Optional **AMOLED black** switch: in dark mode `surface` / `surface_low` are forced to `#000000`
+  and `surface_high` (cards, dialogs) to `#101010` — a true-black list that still keeps card layering.
+
+### Older Android versions
+
+- The semantic tokens (`system_primary_light` and friends) only exist on Android 14+.
+- **API 31–33**: falls back to the `system_accent1_*` / `system_neutral1|2_*` tonal tokens and
+  synthesizes every role the way Material 3 does.
+- **API 29–30**: no tonal tokens either, so the Material baseline palette is used instead —
+  plain purple/grey rather than the original teal.
+
+### Resource-drift resistance
+
+- Role detection is **name-first**; the resource-ID table is only a fallback. When the two disagree
+  the name wins and a `resource drift on 0x…` line is logged, so a 1DM+ update that shifts IDs does
+  not silently break the whole mapping.
 
 ## Requirements
 
-- Android 9+ (API 28 or newer recommended), LSPosed with **LibXposed API 102**
+- Android 10+ (minSdk 29), LSPosed with **LibXposed API 102**
 - Module packaging follows API 102: `META-INF/xposed/module.prop`
   (`minApiVersion=102`, `targetApiVersion=102`, `staticScope=true`), `java_init.list`, `scope.list`
 
@@ -72,8 +102,8 @@ Settings screen, built with [Miuix](https://github.com/compose-miuix-ui/miuix) (
 1. Install the APK.
 2. Enable the module in LSPosed; the scope is fixed to 1DM+.
 3. Force stop 1DM+ and open it again.
-4. To customize, open **1DM+ M3 Expressive Theme** from the launcher: pick a color and/or drag the
-   corner-radius slider, then tap **Save and apply**.
+4. To customize, open **1DM+ M3 Expressive Theme** from the launcher: pick a color, drag the radius
+   and curvature sliders, toggle AMOLED if wanted, then tap **Save and apply**.
 
 ## How it is built
 

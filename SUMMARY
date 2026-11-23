@@ -1,1 +1,1 @@
-给 1DM+ 提供 Material 3 Expressive 动态配色（跟随壁纸）、G2 连续曲率弹窗、自定义强调色与圆角曲率滑块（0–48dp，默认 24dp），设置界面基于 Miuix。LSPosed，LibXposed API 102。
+给 1DM+（下载管理器）提供 Material 3 Expressive 动态配色（跟随壁纸）、G2 连续曲率弹窗、半径与曲率双滑块（0–48dp / n=2–8）、AMOLED 纯黑、深色模式与低版本系统兜底，设置界面基于 Miuix。LSPosed，LibXposed API 102。
