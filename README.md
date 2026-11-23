@@ -18,6 +18,10 @@
 
 ## 截图
 
+| 浅色 · 动态配色列表 | 深色 · AMOLED 纯黑弹窗 |
+|---|---|
+| ![浅色列表](docs/list-light.png) | ![AMOLED 弹窗](docs/dialog-dark.png) |
+
 | 动态配色工具栏（跟随壁纸） | G2 连续曲率下载弹窗 |
 |---|---|
 | ![Toolbar](docs/toolbar.png) | ![Dialog](docs/dialog.png) |
@@ -25,6 +29,16 @@
 设置界面，使用 [Miuix](https://github.com/compose-miuix-ui/miuix)（Compose Multiplatform）构建：
 
 ![Settings](docs/settings.png)
+
+## 下载
+
+| 文件 | 说明 |
+|---|---|
+| **[1dm-theme-1.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | 本模块（LSPosed），装完在 LSPosed 里启用即可 |
+| **[1DM-18.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | 目标应用 1DM+ 18.2（versionCode 30249），模块的功能与圆角参数都在这个版本上验证 |
+
+- 1DM+ 是付费应用，仓库里这份仅作为「配合本模块使用」的版本快照；能在商店买的话请支持作者。
+- 装完模块后记得**强制停止 1DM+ 再打开**，hook 只在进程启动时加载。
 
 ## 功能
 

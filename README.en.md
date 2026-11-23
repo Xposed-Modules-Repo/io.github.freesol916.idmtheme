@@ -19,6 +19,10 @@ Disable the module and restart the app to get the original look back.
 
 ## Screenshots
 
+| Light · dynamic list | Dark · AMOLED dialog |
+|---|---|
+| ![Light list](docs/list-light.png) | ![AMOLED dialog](docs/dialog-dark.png) |
+
 | Themed toolbar (wallpaper colors) | Squircle download dialog |
 |---|---|
 | ![Toolbar](docs/toolbar.png) | ![Dialog](docs/dialog.png) |
@@ -26,6 +30,16 @@ Disable the module and restart the app to get the original look back.
 Settings screen, built with [Miuix](https://github.com/compose-miuix-ui/miuix) (Compose Multiplatform):
 
 ![Settings](docs/settings.png)
+
+## Downloads
+
+| File | What it is |
+|---|---|
+| **[1dm-theme-1.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | The module itself (LSPosed) |
+| **[1DM-18.2.apk](https://github.com/Xposed-Modules-Repo/io.github.freesol916.idmtheme/releases/latest)** | The target app, 1DM+ 18.2 (versionCode 30249) — the version this module was verified against |
+
+- 1DM+ is a paid app; the copy here is a version snapshot meant for use together with this module.
+- After installing the module, **force stop 1DM+ and open it again** — hooks load at process start.
 
 ## Features
 
